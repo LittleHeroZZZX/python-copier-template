@@ -1,0 +1,74 @@
+[project]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = "{{ description }}"
+authors = [{ name = "{{ author_name }}", email = "{{ author_email }}" }]
+requires-python = ">={{ python_version }}"
+readme = "README.md"
+license = { text = "Apache License 2.0" }
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["{{ package_name }}"]
+
+# =============================================================================
+#  Linter & Formatter (Ruff)
+# =============================================================================
+[tool.ruff]
+target-version = "py{{ python_version | replace('.', '') }}"
+line-length = 120
+
+[tool.ruff.lint]
+# E/W: 基础规范, F: 语法错误, I: 导包排序, UP: 语法升级, B: 潜在Bug
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["{{ package_name }}"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# =============================================================================
+#  Type Checking (Mypy)
+# =============================================================================
+[tool.mypy]
+python_version = "{{ python_version }}"
+plugins = ["pydantic.mypy"]
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+# 测试代码不需要写类型注解，太累
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+# =============================================================================
+#  Testing (Pytest)
+# =============================================================================
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+
+# =============================================================================
+#  Dependency Groups
+# =============================================================================
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pre-commit>=4.0.0",
+    "ruff>=0.8.0",
+    "mypy>=1.10.0",
+]

@@ -1,0 +1,17 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Development
+
+Prerequisites: [uv](https://github.com/astral-sh/uv)
+
+```bash
+# Install dependencies
+uv sync
+
+# Setup pre-commit
+uv run pre-commit install
+
+# Run tests
+uv run pytest

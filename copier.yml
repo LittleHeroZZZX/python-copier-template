@@ -1,0 +1,40 @@
+# copier.yml
+_min_copier_version: "9.0.0"
+
+# 问题定义
+project_name:
+  type: str
+  help: 项目名称 (例如: my-tool)
+  validator: >-
+    {% if not project_name | regex_match('^[a-zA-Z0-9_-]+$') %}
+    项目名称只能包含字母、数字、下划线和短横线
+    {% endif %}
+
+description:
+  type: str
+  help: 项目简介
+  default: "A tool developed with modern Python stack."
+
+author_name:
+  type: str
+  help: 作者姓名
+  default: "zhouxin"
+
+author_email:
+  type: str
+  help: 作者邮箱
+  default: "zhou.xin@mail.ustc.edu.cn"
+
+python_version:
+  type: str
+  help: Python 版本
+  default: "3.12"
+  choices:
+    - "3.10"
+    - "3.11"
+    - "3.12"
+
+# 自动计算变量 (不需要询问)
+package_name:
+  type: str
+  default: "{{ project_name | replace('-', '_') | lower }}"
