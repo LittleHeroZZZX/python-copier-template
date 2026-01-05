@@ -1,6 +1,6 @@
 # copier.yml
 _min_copier_version: "9.0.0"
-
+_subdirectory: "template"
 project_name:
   type: str
   help: "Project Name (e.g. my-tool)"
